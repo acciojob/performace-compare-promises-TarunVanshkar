@@ -27,8 +27,8 @@ const apiUrls = [
   }
 
  
-let outputAll = document.getElementById("output-all")
-let outputAny = document.getElementById("output-any")
+const outputAll = document.querySelector("#output-all");
+const outputAny = document.querySelector("#output-any");
 
 const allPromises = Promise.all(apiUrls.map(fetchUrlData))
 // console.log(allPromises)
