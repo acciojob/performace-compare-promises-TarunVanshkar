@@ -34,7 +34,8 @@ const allPromises = Promise.all(apiUrls.map(fetchUrlData))
 // console.log(allPromises)
 allPromises.then((times) => {
     times.forEach((time) => {
-        outputAll.innerText += time+"ms ";
+        // outputAll.innerText += time+"ms ";
+        outputAll.innerHTML += `<tr><td>${time.toFixed(2)} ms</td></tr>`;
     })
 })
 
@@ -43,5 +44,6 @@ const anyPromise = Promise.any(apiUrls.map(fetchUrlData))
 
 anyPromise.then((time) => {
     // console.log(time)
-    outputAny.innerText += time + "ms ";
+    // outputAny.innerText += time + "ms ";
+    outputAny.innerHTML += `<tr><td>${time.toFixed(2)} ms</td></tr>`;
 })
