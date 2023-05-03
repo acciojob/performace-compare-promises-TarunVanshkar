@@ -13,3 +13,35 @@ const apiUrls = [
 ];
 
 // You can write your code here
+  // Function to fetch api data and return time taken to fetch data
+  function fetchUrlData(url){
+    const startTime = performance.now();    // Took current time in ms
+    // console.log(startTime)
+    const promise = fetch(url);
+    // console.log(promise)
+    const finalPromise = promise.then((data) => {
+        return data.json()
+    })
+    // console.log(finalPromise)
+    return performance.now() - startTime;
+  }
+
+ 
+let outputAll = document.getElementById("output-all")
+let outputAny = document.getElementById("output-any")
+
+const allPromises = Promise.all(apiUrls.map(fetchUrlData))
+// console.log(allPromises)
+allPromises.then((times) => {
+    times.forEach((time) => {
+        outputAll.innerText += time+"ms ";
+    })
+})
+
+
+const anyPromise = Promise.any(apiUrls.map(fetchUrlData))
+
+anyPromise.then((time) => {
+    // console.log(time)
+    outputAny.innerText += time + "ms ";
+})
