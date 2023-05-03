@@ -13,37 +13,23 @@ const apiUrls = [
 ];
 
 // You can write your code here
-  // Function to fetch api data and return time taken to fetch data
-  function fetchUrlData(url){
-    const startTime = performance.now();    // Took current time in ms
-    // console.log(startTime)
-    const promise = fetch(url);
-    // console.log(promise)
-    const finalPromise = promise.then((data) => {
-        return data.json()
-    })
-    // console.log(finalPromise)
-    return performance.now() - startTime;
+async function fetchApiTime() {
+    const startAllTime = performance.now();
+    const allResponses = await Promise.all(
+      apiUrls.map(url => fetch(url))
+    );
+    const endAllTime = performance.now();
+
+    const startAnyTime = performance.now();
+    const anyResponse = await Promise.any(
+      apiUrls.map(url => fetch(url))
+    );
+    const endAnyTime = performance.now();
+
+    const outputAll = document.getElementById("output-all");
+    const outputAny = document.getElementById("output-any");
+    outputAll.innerText = endAllTime - startAllTime;
+    outputAny.innerText = endAnyTime - startAnyTime;
   }
 
- 
-const outputAll = document.querySelector("#output-all");
-const outputAny = document.querySelector("#output-any");
-
-const allPromises = Promise.all(apiUrls.map(fetchUrlData))
-// console.log(allPromises)
-allPromises.then((times) => {
-    times.forEach((time) => {
-        // outputAll.innerText += time+"ms ";
-        outputAll.innerHTML += `<tr><td>${time.toFixed(2)} ms</td></tr>`;
-    })
-})
-
-
-const anyPromise = Promise.any(apiUrls.map(fetchUrlData))
-
-anyPromise.then((time) => {
-    // console.log(time)
-    // outputAny.innerText += time + "ms ";
-    outputAny.innerHTML += `<tr><td>${time.toFixed(2)} ms</td></tr>`;
-})
+fetchApiTime();
